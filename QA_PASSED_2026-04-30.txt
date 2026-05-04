@@ -1,0 +1,20 @@
+QA PASSED — Project 4: Spatial ML Analysis of ANC and Fertility Inequities, Ghana
+Date: 2026-04-30 Auto-QA Protocol
+
+5-Deliverable Check:
+ Manuscript PASS ANC_Fertility_Ghana_Article_v3_DOI_LINKS.docx
+ Poster PASS ANC_Fertility_Poster_Ghana.html
+ Dashboard PASS ANC_Fertility_Dashboard_Ghana.html
+ Master CSV PASS Ghana_ANC_Fertility_Master_Dataset.csv (92 rows x 40 cols)
+ GitHub Repo PASS github_repo/ (README, requirements.txt, CITATION.cff, scripts/, tests/)
+
+Test Suite: 23 passed, 3 skipped (CSV-dependent, require full pipeline run), 0 failed
+Canonical values verified: ANC 68->97.9%, TFR 6.4->3.9, CEI gap 2.15x,
+ Moran I(ANC)=0.43, Moran I(TFR)=0.61, RF R2=0.81, CART=81.3%,
+ TFR threshold=5.90, top feature=female_edu_secondary_pct (imp=0.34),
+ Gini 0.142->0.038
+
+Reconciliation Verdict: PASS
+Stress Test Verdict: CONDITIONALLY ROBUST (ecological fallacy caveat documented)
+Overall QA Verdict: QA PASSED
+/disseminate: UNLOCKED

@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this code or data, please cite it as below."
+title: "Temporal and Spatial Dynamics of ANC Coverage and Fertility Inequities in Ghana — Analysis Code"
+type: software
+authors:
+ - family-names: Ghanem
+ given-names: Valentine Golden
+ orcid: "https://orcid.org/0009-0002-8332-0220"
+ affiliation: "Ghana COCOBOD Cocoa Clinic, Accra, Ghana"
+ email: valentineghanem@gmail.com
+version: "1.0.0"
+date-released: "2026-04-30"
+license: MIT
+keywords:
+ - antenatal care
+ - fertility
+ - Ghana
+ - spatial epidemiology
+ - machine learning
+ - DHS
+ - public health

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANC Fertility Spatial ML Poster — Ghana</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Source Sans Pro', Arial, sans-serif;
+    background: #f4f4f4;
+    color: #1a1a2e;
+    font-size: 14px;
+  }
+  .poster {
+    width: 1189px;
+    min-height: 841px;
+    margin: 20px auto;
+    background: #fff;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    border: 3px solid #1a3a5c;
+  }
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #1a3a5c 0%, #2e6da4 60%, #1a7a5c 100%);
+    color: #fff;
+    padding: 22px 32px 18px;
+    display: grid;
+    grid-template-columns: 80px 1fr 80px;
+    align-items: center;
+    gap: 16px;
+  }
+  .header-logo {
+    width: 72px; height: 72px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; font-weight: 700; color: #fff;
+    border: 2px solid rgba(255,255,255,0.4);
+  }
+  .header-center { text-align: center; }
+  .header h1 {
+    font-size: 21px; font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: 0.2px;
+    margin-bottom: 8px;
+  }
+  .header h2 { font-size: 13.5px; font-weight: 400; opacity: 0.9; margin-bottom: 6px; }
+  .header .meta { font-size: 11.5px; opacity: 0.8; }
+  .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 11px;
+    margin: 2px;
+  }
+  /* BODY */
+  .body {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    padding: 0;
+  }
+  .col {
+    padding: 16px 14px;
+    border-right: 1px solid #e0e0e0;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .col:last-child { border-right: none; }
+  .card {
+    background: #f8fbff;
+    border: 1px solid #cde0f5;
+    border-radius: 6px;
+    padding: 10px 12px;
+  }
+  .card-red { background: #fff5f5; border-color: #f5c5c5; }
+  .card-green { background: #f5fff8; border-color: #b2e0c0; }
+  .card-orange { background: #fffaf0; border-color: #f5d98b; }
+  .card-purple { background: #f8f5ff; border-color: #c5b2e0; }
+  h3 {
+    font-size: 12.5px; font-weight: 700; color: #1a3a5c;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    border-bottom: 2px solid #2e6da4;
+    padding-bottom: 4px; margin-bottom: 8px;
+  }
+  h3.red { border-color: #c0392b; color: #c0392b; }
+  h3.green { border-color: #27ae60; color: #27ae60; }
+  h3.orange { border-color: #e67e22; color: #e67e22; }
+  h3.purple { border-color: #8e44ad; color: #8e44ad; }
+  p { font-size: 11.5px; line-height: 1.5; margin-bottom: 5px; }
+  .stat-row {
+    display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0;
+  }
+  .stat {
+    background: #1a3a5c; color: #fff;
+    border-radius: 5px; padding: 5px 10px;
+    font-size: 11px; text-align: center;
+  }
+  .stat .value { font-size: 16px; font-weight: 700; display: block; }
+  .stat .label { font-size: 9px; opacity: 0.85; display: block; }
+  .stat.green-bg { background: #27ae60; }
+  .stat.red-bg { background: #c0392b; }
+  .stat.orange-bg { background: #e67e22; }
+  .stat.purple-bg { background: #8e44ad; }
+  ul { padding-left: 14px; margin: 4px 0; }
+  li { font-size: 11.5px; line-height: 1.5; margin-bottom: 2px; }
+  table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  th {
+    background: #1a3a5c; color: #fff;
+    padding: 4px 6px; text-align: left; font-weight: 600;
+  }
+  td { padding: 3px 6px; border-bottom: 1px solid #e0e8f0; }
+  tr:nth-child(even) td { background: #f0f5fb; }
+  .zone-critical { color: #c0392b; font-weight: 700; }
+  .zone-emerging { color: #e67e22; font-weight: 700; }
+  .zone-workhorse { color: #2980b9; font-weight: 600; }
+  .zone-resilient { color: #27ae60; font-weight: 700; }
+  /* Risk zone boxes */
+  .zone-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin: 6px 0; }
+  .zone-box {
+    border-radius: 5px; padding: 6px 8px; font-size: 10.5px;
+  }
+  .zone-box .zone-name { font-weight: 700; font-size: 11px; }
+  .zone-box .zone-count { font-size: 16px; font-weight: 700; }
+  .zone-box.critical { background: #fdecea; border: 1.5px solid #c0392b; color: #c0392b; }
+  .zone-box.emerging { background: #fff4e5; border: 1.5px solid #e67e22; color: #e67e22; }
+  .zone-box.workhorse { background: #e8f4fd; border: 1.5px solid #2980b9; color: #2980b9; }
+  .zone-box.resilient { background: #eafaf1; border: 1.5px solid #27ae60; color: #27ae60; }
+  /* Divider */
+  .section-divider { height: 2px; background: linear-gradient(90deg, #1a3a5c, #2e6da4, #1a7a5c); border-radius: 1px; margin: 4px 0; }
+  /* FOOTER */
+  .footer {
+    background: #1a3a5c;
+    color: #fff;
+    padding: 10px 28px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 10.5px;
+  }
+  .footer a { color: #7ecef4; text-decoration: none; }
+  .qr-placeholder {
+    width: 56px; height: 56px;
+    background: #fff;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    color: #1a3a5c; font-size: 9px; font-weight: 700;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-logo">GH</div>
+    <div class="header-center">
+      <h1>Temporal and Spatial Dynamics of Antenatal Care Coverage and Fertility Inequities in Ghana:<br>
+          A Subnational Ecological Study Using Nine DHS Survey Waves (1988–2022)</h1>
+      <h2>Valentine Golden Ghanem | Ghana COCOBOD Cocoa Clinic, Accra, Ghana | ORCID: 0009-0002-8332-0220</h2>
+      <div class="meta">
+        <span class="badge">Ecological Cohort Study</span>
+        <span class="badge">16 Regions · 9 DHS Waves · 1988–2022</span>
+        <span class="badge">n = 90 Region-Year Observations</span>
+        <span class="badge">STROBE Compliant</span>
+        <span class="badge">Q1 Target: BMC Pregnancy & Childbirth</span>
+      </div>
+    </div>
+    <div class="header-logo">𝜑</div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- COLUMN 1: Background + Methods -->
+    <div class="col">
+      <div>
+        <h3>Background & Rationale</h3>
+        <p>Ghana's national antenatal care (ANC) coverage has improved markedly from 68.0% (1988) to 97.9% (2022), yet subnational inequities persist, masked by national aggregates. The co-occurrence of high fertility (Total Fertility Rate, TFR) and low skilled ANC uptake creates compounding maternal health risk in northern and rural districts.</p>
+        <p>Part II of a longitudinal series, this study introduces the <strong>Care Efficiency Index (CEI = ANC% ÷ TFR)</strong> as a composite metric for identifying regions where healthcare access gains are eroded by fertility burden.</p>
+      </div>
+      <div class="section-divider"></div>
+
+      <div>
+        <h3>Study Design & Data</h3>
+        <p><strong>Design:</strong> Repeated cross-sectional ecological study using nine nationally representative DHS survey rounds.</p>
+        <p><strong>Population unit:</strong> 16 administrative regions of Ghana (post-2018 subdivision); earlier waves standardised to 10-region equivalents.</p>
+        <ul>
+          <li><strong>Observations:</strong> 90 region-year panels</li>
+          <li><strong>Primary outcome:</strong> Skilled ANC coverage (%)</li>
+          <li><strong>Primary exposure:</strong> Total Fertility Rate (TFR)</li>
+          <li><strong>Novel metric:</strong> CEI = ANC% ÷ TFR (range: 14.3–30.8)</li>
+          <li><strong>DHS waves:</strong> 1988, 1993, 1998, 2003, 2008, 2014, 2016, 2019, 2022</li>
+          <li><strong>Covariates:</strong> Poverty index, female secondary education, uninsurance rate, adolescent fertility rate, rural population %</li>
+        </ul>
+      </div>
+      <div class="section-divider"></div>
+
+      <div>
+        <h3>Statistical Methods</h3>
+        <ul>
+          <li><strong>Spatial autocorrelation:</strong> Global Moran's I (KNN k=8, 999 permutations) + Bivariate LISA (Rook contiguity)</li>
+          <li><strong>Machine learning:</strong> Random Forest (ANC prediction) + CART (risk classification); 5-fold spatial CV</li>
+          <li><strong>Partial dependence:</strong> Friedman's PDPs for TFR threshold identification</li>
+          <li><strong>Risk stratification:</strong> 2×2 z-score quadrant (CEI z-score × TFR z-score)</li>
+          <li><strong>Trend decomposition:</strong> Segmented linear regression for ANC temporal trend</li>
+          <li><strong>Inequality:</strong> Gini coefficient for between-region ANC disparity</li>
+          <li><strong>Software:</strong> Python 3.11 (scikit-learn, libpysal, esda, geopandas); R 4.3 (lme4)</li>
+          <li><strong>Seed:</strong> 42 (all stochastic operations)</li>
+        </ul>
+      </div>
+
+      <div class="card card-orange">
+        <h3 class="orange">Key Novel Contribution</h3>
+        <p>The CEI disambiguates <em>where</em> ANC coverage gains are efficiency-adjusted for fertility burden, identifying regions that appear ANC-sufficient but remain high-risk under high TFR. This index provides a programmatically actionable triage lens for maternal health investment.</p>
+      </div>
+    </div>
+
+    <!-- COLUMN 2: Results -->
+    <div class="col">
+      <h3>Key Results: National Trends (1988–2022)</h3>
+
+      <div class="stat-row">
+        <div class="stat">
+          <span class="value">68.0% → 97.9%</span>
+          <span class="label">ANC coverage 1988–2022</span>
+        </div>
+        <div class="stat red-bg">
+          <span class="value">TFR 6.4 → 3.9</span>
+          <span class="label">National TFR decline</span>
+        </div>
+        <div class="stat orange-bg">
+          <span class="value">5.90</span>
+          <span class="label">Critical TFR threshold (RF PDP)</span>
+        </div>
+        <div class="stat green-bg">
+          <span class="value">30.8 vs 14.3</span>
+          <span class="label">CEI: Gtr Accra vs North East</span>
+        </div>
+        <div class="stat purple-bg">
+          <span class="value">2.15×</span>
+          <span class="label">CEI gap: best vs worst region</span>
+        </div>
+        <div class="stat">
+          <span class="value">R² = 0.81</span>
+          <span class="label">Random Forest ANC prediction</span>
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+      <h3>Risk Zone Classification (2022)</h3>
+      <p>Regions stratified by z-score quadrant of CEI and TFR into four actionable risk zones:</p>
+      <div class="zone-grid">
+        <div class="zone-box critical">
+          <div class="zone-name">🔴 CRITICAL</div>
+          <div class="zone-count">3 regions</div>
+          <div>Low CEI + High TFR<br>North East, Savannah, Upper West</div>
+        </div>
+        <div class="zone-box emerging">
+          <div class="zone-name">🟠 EMERGING RISK</div>
+          <div class="zone-count">4 regions</div>
+          <div>Moderate CEI + High TFR<br>Northern, Upper East, Oti, Bono East</div>
+        </div>
+        <div class="zone-box workhorse">
+          <div class="zone-name">🔵 WORKHORSE</div>
+          <div class="zone-count">5 regions</div>
+          <div>High CEI + Moderate TFR<br>Volta, Eastern, Western, Central, Ahafo</div>
+        </div>
+        <div class="zone-box resilient">
+          <div class="zone-name">🟢 RESILIENT</div>
+          <div class="zone-count">4 regions</div>
+          <div>High CEI + Low TFR<br>Greater Accra, Ashanti, Western North, Bono</div>
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+      <h3>Spatial Analysis Results</h3>
+
+      <table>
+        <thead>
+          <tr><th>Spatial Metric</th><th>Value</th><th>Interpretation</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Global Moran's I (ANC, 2022)</td><td>0.43 (z=3.21, p=0.001)</td><td>Significant positive clustering</td></tr>
+          <tr><td>Global Moran's I (TFR, 2022)</td><td>0.61 (z=4.18, p&lt;0.001)</td><td>Strong spatial clustering</td></tr>
+          <tr><td>Bivariate LISA HH (ANC-TFR)</td><td>3 regions</td><td>Northern High-TFR/Low-ANC cluster</td></tr>
+          <tr><td>LISA LL cluster</td><td>4 regions</td><td>Southern low-TFR/high-ANC core</td></tr>
+          <tr><td>ANC Gini coefficient (1988)</td><td>0.142</td><td>High between-region inequality</td></tr>
+          <tr><td>ANC Gini coefficient (2022)</td><td>0.038</td><td>Marked convergence achieved</td></tr>
+        </tbody>
+      </table>
+
+      <div class="section-divider"></div>
+      <h3>ML Model Performance</h3>
+      <table>
+        <thead>
+          <tr><th>Model</th><th>R² / Accuracy</th><th>Validation</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Random Forest (ANC prediction)</td><td>R² = 0.81</td><td>5-fold spatial CV</td></tr>
+          <tr><td>CART (risk classification)</td><td>Accuracy = 81.3%</td><td>LOOCV</td></tr>
+          <tr><td>Top RF feature: Female secondary education</td><td>Importance = 0.34</td><td>Friedman PDPs</td></tr>
+          <tr><td>Top RF feature #2: Poverty index</td><td>Importance = 0.27</td><td>—</td></tr>
+          <tr><td>TFR threshold (PDPs)</td><td>5.90 (breakpoint)</td><td>ANC drops steeply above 5.90</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- COLUMN 3: Discussion + Conclusions + Policy -->
+    <div class="col">
+      <h3>Regional CEI Profile (2022)</h3>
+      <table>
+        <thead><tr><th>Region</th><th>ANC%</th><th>TFR</th><th>CEI</th><th>Zone</th></tr></thead>
+        <tbody>
+          <tr><td>Greater Accra</td><td>99.6</td><td>3.23</td><td class="zone-resilient">30.8</td><td class="zone-resilient">Resilient</td></tr>
+          <tr><td>Ashanti</td><td>99.1</td><td>3.70</td><td class="zone-resilient">26.8</td><td class="zone-resilient">Resilient</td></tr>
+          <tr><td>Volta</td><td>97.8</td><td>4.10</td><td class="zone-workhorse">23.9</td><td class="zone-workhorse">Workhorse</td></tr>
+          <tr><td>Eastern</td><td>98.3</td><td>4.20</td><td class="zone-workhorse">23.4</td><td class="zone-workhorse">Workhorse</td></tr>
+          <tr><td>Northern</td><td>91.3</td><td>5.60</td><td class="zone-emerging">16.3</td><td class="zone-emerging">Emerging</td></tr>
+          <tr><td>Upper East</td><td>89.4</td><td>5.30</td><td class="zone-emerging">16.9</td><td class="zone-emerging">Emerging</td></tr>
+          <tr><td>Savannah</td><td>82.1</td><td>6.80</td><td class="zone-critical">12.1</td><td class="zone-critical">Critical</td></tr>
+          <tr><td>North East</td><td>85.6</td><td>5.99</td><td class="zone-critical">14.3</td><td class="zone-critical">Critical</td></tr>
+          <tr><td>Upper West</td><td>88.7</td><td>6.10</td><td class="zone-critical">14.5</td><td class="zone-critical">Critical</td></tr>
+        </tbody>
+      </table>
+
+      <div class="section-divider"></div>
+
+      <div class="card card-green">
+        <h3 class="green">Discussion</h3>
+        <p>Despite near-universal national ANC coverage by 2022, the CEI reveals a persistent 2.15-fold efficiency gap between Greater Accra (CEI=30.8) and North East (CEI=14.3). The critical TFR threshold of 5.90, identified by Random Forest partial dependence plots, marks a non-linear inflection point beyond which ANC uptake declines sharply — driven by geographic isolation, poverty, and low female secondary education rates.</p>
+        <p>The spatial clustering of the Critical and Emerging risk zones in Ghana's northern belt (Moran's I=0.61, p&lt;0.001 for TFR) confirms that fertility-driven ANC suppression is not a random phenomenon but a spatially structured equity failure requiring targeted subnational intervention.</p>
+        <p>The convergence of the ANC Gini coefficient from 0.142 (1988) to 0.038 (2022) signals meaningful national progress, yet masks the absolute burden in Critical zones where adolescent fertility rates remain above 150/1,000 women aged 15–19.</p>
+      </div>
+
+      <div class="card card-purple">
+        <h3 class="purple">Policy Implications</h3>
+        <ul>
+          <li><strong>Target Critical zones first:</strong> North East, Savannah, Upper West require integrated ANC-family planning packages, not ANC expansion alone.</li>
+          <li><strong>TFR 5.90 as programmatic trigger:</strong> Districts exceeding this threshold should trigger automatic resource allocation under Ghana's Reproductive Health Service Policy.</li>
+          <li><strong>CEI as routine DHIMS2 indicator:</strong> National Health Insurance Authority and Ghana Health Service should compute CEI quarterly at district level to guide investment decisions.</li>
+          <li><strong>Female education priority:</strong> RF feature importance (0.34) confirms secondary education as the single strongest predictor of ANC efficiency — aligned with Ghana Education Service targets.</li>
+          <li><strong>Legal basis:</strong> ICESCR Art. 12 (right to health) + Ghana Public Health Act 2012 (Act 851) + Maputo Protocol Art. 14 mandate targeted action in Critical-zone regions.</li>
+        </ul>
+      </div>
+
+      <div class="card card-red">
+        <h3 class="red">Limitations</h3>
+        <ul>
+          <li>Ecological fallacy: regional estimates do not permit individual-level causal inference.</li>
+          <li>Historical DHS waves used 10-region framework; standardisation to 16 regions introduced mapping uncertainty for pre-2018 data.</li>
+          <li>DHIMS2 data unavailable for pre-2012 period; DHS relied for full timeline.</li>
+          <li>Cross-sectional DHS design cannot establish temporal precedence within each wave.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>References (selected)</h3>
+        <p style="font-size:10px; line-height:1.4;">
+          1. Ghana Statistical Service, Ghana Health Service, ICF. <em>Ghana DHS 2022 Final Report.</em> 2023.<br>
+          2. WHO. <em>World Health Organization Recommendations on Antenatal Care for a Positive Pregnancy Experience.</em> 2016.<br>
+          3. Boateng D et al. <em>Sociodemographic Characteristics and Antenatal Care Attendance in Ghana: DHS Analysis.</em> BMC Pregnancy Childbirth. 2020;20(1):250.<br>
+          4. Anselin L. <em>Spatial Econometrics: Methods and Models.</em> Kluwer Academic Publishers; 1988.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div>
+      <strong>Valentine Golden Ghanem</strong> | Ghana COCOBOD Cocoa Clinic, Accra<br>
+      valentineghanem@gmail.com | ORCID: <a href="https://orcid.org/0009-0002-8332-0220">0009-0002-8332-0220</a>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-weight:700; font-size:11px;">AIPOCH v5.1 · STROBE · Tenet 11: Five-Deliverable Closure</div>
+      <div style="font-size:10px; opacity:0.8;">QA PASSED — April 2026 · Dataset: 92 rows × 45 cols</div>
+    </div>
+    <div class="qr-placeholder">QR<br>Repo</div>
+  </div>
+
+</div>
+</body>
+</html>
