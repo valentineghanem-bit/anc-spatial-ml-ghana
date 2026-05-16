@@ -48,15 +48,15 @@ def compute_cei(df: pd.DataFrame) -> pd.DataFrame:
  df["tfr_above_threshold_590"] = (df[tfr_col] >= TFR_THRESHOLD).astype(int)
 
  def classify_zone(row):
- c, t = row["cei_z_score"], row["tfr_z_score"]
- if c < -0.3 and t > 0.2:
- return "Critical"
- elif c < 0.3 and t > 0.3:
- return "Emerging"
- elif c > 0.2:
- return "Resilient"
- else:
- return "Workhorse"
+  c, t = row["cei_z_score"], row["tfr_z_score"]
+  if c < -0.3 and t > 0.2:
+   return "Critical"
+  elif c < 0.3 and t > 0.3:
+   return "Emerging"
+  elif c > 0.2:
+   return "Resilient"
+  else:
+   return "Workhorse"
 
  df["risk_zone"] = df.apply(classify_zone, axis=1)
  df["cart_risk_class"] = df["risk_zone"].apply(
