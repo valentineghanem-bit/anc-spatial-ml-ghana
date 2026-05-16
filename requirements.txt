@@ -9,7 +9,7 @@ matplotlib==3.9.2
 seaborn==0.13.2
 plotly==5.24.0
 geopandas==1.0.1
-libpysal==4.11.0
+libpysal==4.12.0
 esda==2.7.0
 splot==1.1.5.post1
 Shapely==2.0.6
