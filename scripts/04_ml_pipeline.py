@@ -80,86 +80,86 @@ def run_random_forest_regression(df: pd.DataFrame, features: list) -> dict:
 
  # TFR threshold via partial dependence
  if "tfr" in features:
- tfr_idx = features.index("tfr")
- pdp = partial_dependence(rf, X, [tfr_idx], kind="average", grid_resolution=50)
- tfr_vals = pdp["grid_values"][0]
- anc_pdp = pdp["average"][0]
+  tfr_idx = features.index("tfr")
+  pdp = partial_dependence(rf, X, [tfr_idx], kind="average", grid_resolution=50)
+  tfr_vals = pdp["grid_values"][0]
+  anc_pdp = pdp["average"][0]
  # Find inflection (steepest drop)
- diffs = np.diff(anc_pdp) / np.diff(tfr_vals)
- steepest = tfr_vals[np.argmin(diffs)]
- print(f"\n TFR threshold (steepest PDP drop): {steepest:.2f}")
- print(f" Canonical: {TFR_THRESHOLD_CANONICAL}")
+  diffs = np.diff(anc_pdp) / np.diff(tfr_vals)
+  steepest = tfr_vals[np.argmin(diffs)]
+  print(f"\n TFR threshold (steepest PDP drop): {steepest:.2f}")
+  print(f" Canonical: {TFR_THRESHOLD_CANONICAL}")
 
- return {
- "model": rf,
- "cv_r2_mean": round(float(np.mean(cv_r2)), 4),
- "cv_r2_sd": round(float(np.std(cv_r2)), 4),
- "cv_rmse_mean": round(float(np.mean(cv_rmse)), 4),
- "top_feature": importances.index[0],
- "top_importance": round(float(importances.iloc[0]), 4),
- }
+  return {
+  "model": rf,
+  "cv_r2_mean": round(float(np.mean(cv_r2)), 4),
+  "cv_r2_sd": round(float(np.std(cv_r2)), 4),
+  "cv_rmse_mean": round(float(np.mean(cv_rmse)), 4),
+  "top_feature": importances.index[0],
+  "top_importance": round(float(importances.iloc[0]), 4),
+  }
 
 
 def run_cart_classification(df: pd.DataFrame, features: list) -> dict:
  """CART decision tree for risk zone classification (LOOCV)."""
  if RISK_OUTCOME not in df.columns:
- logger.warning(f"{RISK_OUTCOME} not in dataset; skipping CART.")
- return {}
+  logger.warning(f"{RISK_OUTCOME} not in dataset; skipping CART.")
+  return {}
 
- X = df[features].values
- y = (df[RISK_OUTCOME] == "High").astype(int).values
+  X = df[features].values
+  y = (df[RISK_OUTCOME] == "High").astype(int).values
 
- cart = DecisionTreeClassifier(max_depth=4, min_samples_leaf=5, random_state=SEED)
- loo = LeaveOneOut()
- y_pred = cross_val_predict(cart, X, y, cv=loo)
- y_prob = cross_val_predict(cart, X, y, cv=loo, method="predict_proba")[:, 1]
+  cart = DecisionTreeClassifier(max_depth=4, min_samples_leaf=5, random_state=SEED)
+  loo = LeaveOneOut()
+  y_pred = cross_val_predict(cart, X, y, cv=loo)
+  y_prob = cross_val_predict(cart, X, y, cv=loo, method="predict_proba")[:, 1]
 
- acc = accuracy_score(y, y_pred)
- auc = roc_auc_score(y, y_prob)
- cart.fit(X, y)
+  acc = accuracy_score(y, y_pred)
+  auc = roc_auc_score(y, y_prob)
+  cart.fit(X, y)
 
- print(f"\n[/uq-flag] CART Classification (risk zone high/low)")
- print(f" LOOCV Accuracy: {acc:.4f}")
- print(f" LOOCV AUC-ROC: {auc:.4f}")
- print(f"\n Decision rules (depth≤4):")
- print(export_text(cart, feature_names=features, max_depth=4))
+  print(f"\n[/uq-flag] CART Classification (risk zone high/low)")
+  print(f" LOOCV Accuracy: {acc:.4f}")
+  print(f" LOOCV AUC-ROC: {auc:.4f}")
+  print(f"\n Decision rules (depth≤4):")
+  print(export_text(cart, feature_names=features, max_depth=4))
 
- return {
- "model": cart,
- "loocv_accuracy": round(acc, 4),
- "loocv_auc": round(auc, 4),
- }
+  return {
+  "model": cart,
+  "loocv_accuracy": round(acc, 4),
+  "loocv_auc": round(auc, 4),
+  }
 
 
 def main() -> None:
  csv_path = os.path.join(os.path.dirname(REPO_ROOT), "Ghana_ANC_Fertility_Master_Dataset.csv")
  if not os.path.exists(csv_path):
- print("[04] Dataset not found. Run 01_data_preparation.py first.")
- return
+  print("[04] Dataset not found. Run 01_data_preparation.py first.")
+  return
 
- df, features = load_data(csv_path)
- rf_results = run_random_forest_regression(df, features)
- cart_results = run_cart_classification(df, features)
+  df, features = load_data(csv_path)
+  rf_results = run_random_forest_regression(df, features)
+  cart_results = run_cart_classification(df, features)
 
  # Save model + results
- models_dir = os.path.join(REPO_ROOT, "data", "models")
- os.makedirs(models_dir, exist_ok=True)
- with open(os.path.join(models_dir, "rf_anc_model.pkl"), "wb") as fh:
- pickle.dump(rf_results["model"], fh)
+  models_dir = os.path.join(REPO_ROOT, "data", "models")
+  os.makedirs(models_dir, exist_ok=True)
+  with open(os.path.join(models_dir, "rf_anc_model.pkl"), "wb") as fh:
+   pickle.dump(rf_results["model"], fh)
 
- summary = pd.DataFrame([{
- "rf_cv_r2": rf_results.get("cv_r2_mean"),
- "rf_cv_r2_sd": rf_results.get("cv_r2_sd"),
- "rf_top_feature": rf_results.get("top_feature"),
- "rf_top_importance": rf_results.get("top_importance"),
- "cart_loocv_accuracy": cart_results.get("loocv_accuracy"),
- "cart_loocv_auc": cart_results.get("loocv_auc"),
- "tfr_threshold_canonical": TFR_THRESHOLD_CANONICAL,
- "seed": SEED,
- }])
- out = os.path.join(os.path.dirname(REPO_ROOT), "data", "ML_Results_ANC.csv")
- summary.to_csv(out, index=False)
- print(f"\n[04] ✓ ML results → {out}")
+   summary = pd.DataFrame([{
+   "rf_cv_r2": rf_results.get("cv_r2_mean"),
+   "rf_cv_r2_sd": rf_results.get("cv_r2_sd"),
+   "rf_top_feature": rf_results.get("top_feature"),
+   "rf_top_importance": rf_results.get("top_importance"),
+   "cart_loocv_accuracy": cart_results.get("loocv_accuracy"),
+   "cart_loocv_auc": cart_results.get("loocv_auc"),
+   "tfr_threshold_canonical": TFR_THRESHOLD_CANONICAL,
+   "seed": SEED,
+   }])
+   out = os.path.join(os.path.dirname(REPO_ROOT), "data", "ML_Results_ANC.csv")
+   summary.to_csv(out, index=False)
+   print(f"\n[04] ✓ ML results → {out}")
 
 
 if __name__ == "__main__":

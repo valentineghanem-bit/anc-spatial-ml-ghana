@@ -74,12 +74,12 @@ def print_cei_summary(df: pd.DataFrame) -> None:
  # 2022 wave only for canonical comparison
  df_2022 = df[df["wave_year"] == 2022] if "wave_year" in df.columns else df
  if len(df_2022) > 0:
- cei_max = df_2022.nlargest(1, "cei")[["region","cei"]].values[0]
- cei_min = df_2022.nsmallest(1, "cei")[["region","cei"]].values[0]
- print(f"\n CEI range (2022): {cei_min[0]}={cei_min[1]:.1f} — {cei_max[0]}={cei_max[1]:.1f}")
- print(f" CEI gap: {cei_max[1]/max(cei_min[1],0.01):.2f}×")
- print("\n Risk zones (2022):")
- print(df_2022.groupby("risk_zone").size().to_string())
+  cei_max = df_2022.nlargest(1, "cei")[["region","cei"]].values[0]
+  cei_min = df_2022.nsmallest(1, "cei")[["region","cei"]].values[0]
+  print(f"\n CEI range (2022): {cei_min[0]}={cei_min[1]:.1f} — {cei_max[0]}={cei_max[1]:.1f}")
+  print(f" CEI gap: {cei_max[1]/max(cei_min[1],0.01):.2f}×")
+  print("\n Risk zones (2022):")
+  print(df_2022.groupby("risk_zone").size().to_string())
 
 
 def main() -> None:
@@ -88,16 +88,16 @@ def main() -> None:
  "Ghana_ANC_Fertility_Master_Dataset.csv"
  )
  if not os.path.exists(csv_path):
- print(f"[02] Dataset not found at {csv_path}. Run 01_data_preparation.py first.")
- return
+  print(f"[02] Dataset not found at {csv_path}. Run 01_data_preparation.py first.")
+  return
 
- df = pd.read_csv(csv_path)
- df = compute_cei(df)
- print_cei_summary(df)
+  df = pd.read_csv(csv_path)
+  df = compute_cei(df)
+  print_cei_summary(df)
 
- out_path = csv_path.replace(".csv", "_CEI.csv")
- df.to_csv(out_path, index=False)
- print(f"\n[02] ✓ CEI-enriched dataset → {out_path}")
+  out_path = csv_path.replace(".csv", "_CEI.csv")
+  df.to_csv(out_path, index=False)
+  print(f"\n[02] ✓ CEI-enriched dataset → {out_path}")
 
 
 if __name__ == "__main__":

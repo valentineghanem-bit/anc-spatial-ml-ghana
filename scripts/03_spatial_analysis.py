@@ -69,51 +69,51 @@ def compute_bivariate_lisa(gdf: gpd.GeoDataFrame, anc_col: str, tfr_col: str, w)
 def main() -> None:
  csv_path = os.path.join(os.path.dirname(REPO_ROOT), "Ghana_ANC_Fertility_Master_Dataset.csv")
  if not os.path.exists(csv_path):
- print("[03] Dataset not found. Run 01_data_preparation.py first.")
- return
+  print("[03] Dataset not found. Run 01_data_preparation.py first.")
+  return
 
- df = pd.read_csv(csv_path)
- df_2022 = df[df["wave_year"] == 2022].copy().reset_index(drop=True)
+  df = pd.read_csv(csv_path)
+  df_2022 = df[df["wave_year"] == 2022].copy().reset_index(drop=True)
 
  # Region centroids (approximate Ghana legacy regions)
- centroids = {
- "Greater Accra":(5.6037,-0.187),"Ashanti":(6.747,-1.5209),"Western":(5.093,-2.336),
- "Central":(5.538,-1.198),"Eastern":(6.558,-0.425),"Volta":(7.0,-0.484),
- "Brong-Ahafo":(7.7,-1.98),"Northern":(9.5675,-0.5),
- "Upper East":(10.7,-0.824),"Upper West":(10.252,-2.323),
- }
- df_2022["latitude"] = df_2022["region"].map({k:v[0] for k,v in centroids.items()})
- df_2022["longitude"] = df_2022["region"].map({k:v[1] for k,v in centroids.items()})
- df_2022 = df_2022.dropna(subset=["latitude","longitude"])
+  centroids = {
+  "Greater Accra":(5.6037,-0.187),"Ashanti":(6.747,-1.5209),"Western":(5.093,-2.336),
+  "Central":(5.538,-1.198),"Eastern":(6.558,-0.425),"Volta":(7.0,-0.484),
+  "Brong-Ahafo":(7.7,-1.98),"Northern":(9.5675,-0.5),
+  "Upper East":(10.7,-0.824),"Upper West":(10.252,-2.323),
+  }
+  df_2022["latitude"] = df_2022["region"].map({k:v[0] for k,v in centroids.items()})
+  df_2022["longitude"] = df_2022["region"].map({k:v[1] for k,v in centroids.items()})
+  df_2022 = df_2022.dropna(subset=["latitude","longitude"])
 
- gdf = gpd.GeoDataFrame(df_2022, geometry=gpd.points_from_xy(df_2022.longitude, df_2022.latitude), crs="EPSG:4326")
+  gdf = gpd.GeoDataFrame(df_2022, geometry=gpd.points_from_xy(df_2022.longitude, df_2022.latitude), crs="EPSG:4326")
 
- w_knn = KNN.from_dataframe(gdf, k=KNN_K)
- w_knn.transform = "r"
- w_rook = Rook.from_dataframe(gdf)
- w_rook.transform = "r"
+  w_knn = KNN.from_dataframe(gdf, k=KNN_K)
+  w_knn.transform = "r"
+  w_rook = Rook.from_dataframe(gdf)
+  w_rook.transform = "r"
 
- anc_col = next(c for c in gdf.columns if "anc_coverage" in c.lower())
- tfr_col = "tfr"
+  anc_col = next(c for c in gdf.columns if "anc_coverage" in c.lower())
+  tfr_col = "tfr"
 
- mi_anc = compute_moran(gdf[anc_col].values, w_knn, "ANC Coverage (%)")
- mi_tfr = compute_moran(gdf[tfr_col].values, w_knn, "TFR")
+  mi_anc = compute_moran(gdf[anc_col].values, w_knn, "ANC Coverage (%)")
+  mi_tfr = compute_moran(gdf[tfr_col].values, w_knn, "TFR")
 
- gdf = compute_bivariate_lisa(gdf, anc_col, tfr_col, w_rook)
+  gdf = compute_bivariate_lisa(gdf, anc_col, tfr_col, w_rook)
 
- results = pd.DataFrame([{
- "wave_year": 2022,
- "morans_i_anc": mi_anc["I"], "morans_z_anc": mi_anc["z"], "morans_p_anc": mi_anc["p"],
- "morans_i_tfr": mi_tfr["I"], "morans_z_tfr": mi_tfr["z"], "morans_p_tfr": mi_tfr["p"],
- "lisa_hh_count": (gdf["bv_lisa_quadrant"]=="High-High").sum(),
- "lisa_ll_count": (gdf["bv_lisa_quadrant"]=="Low-Low").sum(),
- "weight_matrix": f"KNN k={KNN_K} row-standardised",
- "permutations": PERMS,
- }])
- out = os.path.join(os.path.dirname(REPO_ROOT), "data", "Spatial_Results_ANC_2022.csv")
- os.makedirs(os.path.dirname(out), exist_ok=True)
- results.to_csv(out, index=False)
- print(f"\n[03] ✓ Spatial results → {out}")
+  results = pd.DataFrame([{
+  "wave_year": 2022,
+  "morans_i_anc": mi_anc["I"], "morans_z_anc": mi_anc["z"], "morans_p_anc": mi_anc["p"],
+  "morans_i_tfr": mi_tfr["I"], "morans_z_tfr": mi_tfr["z"], "morans_p_tfr": mi_tfr["p"],
+  "lisa_hh_count": (gdf["bv_lisa_quadrant"]=="High-High").sum(),
+  "lisa_ll_count": (gdf["bv_lisa_quadrant"]=="Low-Low").sum(),
+  "weight_matrix": f"KNN k={KNN_K} row-standardised",
+  "permutations": PERMS,
+  }])
+  out = os.path.join(os.path.dirname(REPO_ROOT), "data", "Spatial_Results_ANC_2022.csv")
+  os.makedirs(os.path.dirname(out), exist_ok=True)
+  results.to_csv(out, index=False)
+  print(f"\n[03] ✓ Spatial results → {out}")
 
 
 if __name__ == "__main__":
